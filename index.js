@@ -30,14 +30,12 @@ function startGame() {
     isAlive = true;
     let firstCard = getRandomCard();
     let secondCard = getRandomCard();
-    cards = [firstCard, secondCard];
-    sum = firstCard + secondCard;
+    cards = [];
     renderGame();
 
 }
-
+// game logic
 function renderGame() {
-  // game logic
   cardsEl.textContent = "Cards: "
   for (let i = 0; i < cards.length; i++) {
     cardsEl.textContent += cards[i] + " ";
@@ -75,6 +73,19 @@ if (age < 21) {
 }
 
 console.log(age);
+
+
+// new game
+function newGame() {
+  player.chips = 155;
+  playerEl.textContent = player.name + ": $" + player.chips;
+  cards = [];
+  sum = 0;
+  hasBlackJack = false;
+  isAlive = true;
+  message = "";
+  renderGame();
+}
 
 
 // buttons functionality needs revision

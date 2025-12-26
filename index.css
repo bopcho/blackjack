@@ -26,3 +26,20 @@ button {
   border-radius: 2px;
   margin-bottom: 2px 0 2px 0;
 }
+
+.card {
+  background-color: white;
+  padding: 8px 12px;
+  margin: 0 5px;
+  border-radius: 8px;
+  font-size: 24px;
+  font-weight: bold;
+  display: inline-block;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  border: 2px solid #333;
+}
+
+#cards-el {
+  font-size: 18px;
+  margin: 20px 0;
+}

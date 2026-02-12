@@ -134,8 +134,10 @@ function newGame() {
   sum = 0;
   hasBlackJack = false;
   isAlive = true;
-  message = "";
-  renderGame();
+  message = "Do you want to play?";
+  messageEl.textContent = message;
+  cardsEl.innerHTML = "Cards:";
+  sumEl.textContent = "Sum:";
 }
 
 

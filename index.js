@@ -15,30 +15,81 @@ let playerEl = document.getElementById("player-el");
 
 playerEl.textContent = player.name + ": $" + player.chips;
 
-function getRandomCard() {
-  let randomNumber = Math.floor(Math.random() * 13) + 1;
-  if (randomNumber === 1) {
-    return 11;
-  } else if (randomNumber > 10) {
-    return 10;
-  } else {
-    return randomNumber;
+// Card suits and ranks
+const suits = ['♠', '♥', '♦', '♣'];
+const suitNames = ['Spades', 'Hearts', 'Diamonds', 'Clubs'];
+const ranks = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+const rankValues = {
+  'A': 11,
+  '2': 2,
+  '3': 3,
+  '4': 4,
+  '5': 5,
+  '6': 6,
+  '7': 7,
+  '8': 8,
+  '9': 9,
+  '10': 10,
+  'J': 10,
+  'Q': 10,
+  'K': 10
+};
+
+let deck = [];
+
+// Create a full deck of cards
+function createDeck() {
+  deck = [];
+  for (let suit of suits) {
+    for (let rank of ranks) {
+      deck.push({
+        rank: rank,
+        suit: suit,
+        value: rankValues[rank]
+      });
+    }
   }
+  return deck;
+}
+
+// Shuffle the deck
+function shuffleDeck() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+}
+
+// Draw a card from the deck
+function getRandomCard() {
+  if (deck.length === 0) {
+    createDeck();
+    shuffleDeck();
+  }
+  return deck.pop();
 }
 
 function startGame() {
     isAlive = true;
+    hasBlackJack = false;
+
+    // Create and shuffle a new deck
+    createDeck();
+    shuffleDeck();
+
     let firstCard = getRandomCard();
     let secondCard = getRandomCard();
-    cards = [];
+    cards = [firstCard, secondCard];
+    sum = firstCard.value + secondCard.value;
     renderGame();
-
 }
 // game logic
 function renderGame() {
-  cardsEl.textContent = "Cards: "
+  cardsEl.innerHTML = "Cards: "
   for (let i = 0; i < cards.length; i++) {
-    cardsEl.textContent += cards[i] + " ";
+    const card = cards[i];
+    const cardColor = (card.suit === '♥' || card.suit === '♦') ? 'red' : 'black';
+    cardsEl.innerHTML += `<span class="card" style="color: ${cardColor};">[${card.rank}${card.suit}]</span> `;
   }
 
   sumEl.textContent = "Sum: " + sum;
@@ -59,7 +110,7 @@ messageEl.textContent = message;
 function hitMe() {
   if (isAlive === true && hasBlackJack === false) {
   let card = getRandomCard();
-  sum += card;
+  sum += card.value;
   cards.push(card);
   renderGame();
   }
